@@ -1,0 +1,17 @@
+{
+  "name": "trae-model-bridge",
+  "version": "0.1.0",
+  "description": "Expose the model behind a locally-installed traecli (TraeCode CLI) as OpenAI- and Anthropic-compatible HTTP endpoints, so agents like Codex and Claude Code can use it.",
+  "type": "module",
+  "bin": {
+    "trae-model-bridge": "src/server.ts"
+  },
+  "scripts": {
+    "start": "node src/server.ts",
+    "dev": "node --watch src/server.ts"
+  },
+  "engines": {
+    "node": ">=22.6.0"
+  },
+  "license": "MIT"
+}
