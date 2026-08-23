@@ -1,0 +1,44 @@
+.gitignore
+  h_a6256446bcaeb9 1-5
+AGENTS.md
+  h_a6256446bcaeb9 1-78
+CLAUDE.md
+  h_a6256446bcaeb9 1
+README.md
+  h_a6256446bcaeb9 1-215
+package.json
+  h_a6256446bcaeb9 1-17
+src/anthropic.ts
+  h_a6256446bcaeb9 1-415
+src/config.ts
+  h_a6256446bcaeb9 1-151
+src/logger.ts
+  h_a6256446bcaeb9 1-69
+src/models.ts
+  h_a6256446bcaeb9 1-38
+src/openai.ts
+  h_a6256446bcaeb9 1-274
+src/rawchat.ts
+  h_a6256446bcaeb9 1-349
+src/responses.ts
+  h_a6256446bcaeb9 1-479
+src/semaphore.ts
+  h_a6256446bcaeb9 1-26
+src/server.ts
+  h_a6256446bcaeb9 1-228
+src/traecli.ts
+  h_a6256446bcaeb9 1-317
+src/transcript.ts
+  h_a6256446bcaeb9 1-89
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "56cb151e5c5666ffc2144334842858c7b91eee6f",
+  "prompts": {},
+  "humans": {
+    "h_a6256446bcaeb9": {
+      "author": "chenzeping <chenzeping1016@gmail.com>"
+    }
+  }
+}
