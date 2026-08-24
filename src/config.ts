@@ -131,7 +131,7 @@ export function loadConfig(cli: CliArgs = {}): Config {
     host: cli.host ?? envStr("BRIDGE_HOST", "127.0.0.1"),
     port: cli.port ?? envInt("BRIDGE_PORT", 8787),
     bin: envStr("BRIDGE_TRAECLI_BIN", "traecli"),
-    defaultModel: envStr("BRIDGE_DEFAULT_MODEL", "openrouter-3o"),
+    defaultModel: envStr("BRIDGE_DEFAULT_MODEL", "doubao-seed-2.1-pro"),
     sandbox,
     cwd: envStr("BRIDGE_CWD", process.cwd()),
     timeoutMs: envInt("BRIDGE_TIMEOUT_MS", 600_000),

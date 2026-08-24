@@ -13,7 +13,7 @@
 - 它**不会**直接调用 OpenAI/Anthropic，而是调用 **Trae 云端中继**（内部称为 `trae_chat` / "SuperRelay"）。base URL 按安装保存在 `~/.trae/cli/auth.json` 的 `trae.endpoints.api_base_url` 字段中。
 - 配置文件位于 `~/.trae/traecli.toml`（`model`、`model_provider = "trae"`）。
 - 认证使用 `~/.trae/cli/auth.json` 中的 JWT bearer token，由其中的 `refresh_token` 通过 `trae.endpoints.sso_api_host` 刷新（公网版为 `https://console.enterprise.trae.cn`；具体域名随安装/区域而定，以 `auth.json` 为准）。
-- 中继前端挂载了许多模型（缓存在 `~/.trae/model-provider/trae/models_cache.json`）：`Seed-Evolving`、`GPT-5.6-*`、`DeepSeek-V4-*`、`Gemini-3.1-Pro`、`openrouter-3o/2o/1o`（Claude Opus 的别名）等。
+- 中继前端挂载了许多模型（缓存在 `~/.trae/model-provider/trae/models_cache.json`）：`Seed-Evolving`、`GPT-5.6-*`、`DeepSeek-V4-*`、`Gemini-3.1-Pro`、`doubao-seed-2.1-pro/2o/1o`（Claude Opus 的别名）等。
 
 出厂时，`traecli` 是一个完整的**编码 agent**，而非裸聊天端点：它自带系统提示、工具循环（shell、apply_patch、MCP），并在沙箱中运行。**本 bridge 有意绕过这一切**，直接调用中继的底层模型端点（`llm_raw_chat`），作为纯粹的**模型 API** 使用：调用方传来的工具会透传给模型，当模型请求调用工具时，由调用方（例如 Claude Code）执行工具并在下一次请求中把结果回传。bridge 本身永远不会执行任何工具。它复用 `traecli login` 已写入 `auth.json` 的 JWT 和 base URL。
 
@@ -89,7 +89,7 @@ curl http://127.0.0.1:8787/v1/models
 | --- | --- | --- |
 | `BRIDGE_HOST` | `127.0.0.1` | 绑定地址。 |
 | `BRIDGE_PORT` | `8787` | 端口。 |
-| `BRIDGE_DEFAULT_MODEL` | `openrouter-3o` | 请求未指定模型时使用的默认模型。 |
+| `BRIDGE_DEFAULT_MODEL` | `doubao-seed-2.1-pro` | 请求未指定模型时使用的默认模型。 |
 | `BRIDGE_AUTH_PATH` | `~/.trae/cli/auth.json` | traecli 的 JWT + 中继 base URL 路径。 |
 | `BRIDGE_MODELS_CACHE_PATH` | `~/.trae/model-provider/trae/models_cache.json` | 用于解析 `config_name` / `model_name` 的模型缓存路径。 |
 | `BRIDGE_MAX_CONCURRENCY` | `2` | 最大并发上游请求数。 |
@@ -133,7 +133,7 @@ node src/server.ts --log-mode debug --port 9000
 将 Codex 指向 bridge 作为自定义 OpenAI provider。在 `~/.codex/config.toml` 中：
 
 ```toml
-model = "openrouter-3o"
+model = "doubao-seed-2.1-pro"
 model_provider = "traebridge"
 
 [model_providers.traebridge]
@@ -175,27 +175,27 @@ Claude Code 调用 `POST /v1/messages`；bridge 以标准的 Messages 响应 + S
 # OpenAI Chat Completions，非流式
 curl http://127.0.0.1:8787/v1/chat/completions \
   -H 'content-type: application/json' \
-  -d '{"model":"openrouter-3o","messages":[{"role":"user","content":"What is a mutex?"}]}'
+  -d '{"model":"doubao-seed-2.1-pro","messages":[{"role":"user","content":"What is a mutex?"}]}'
 
 # OpenAI Chat Completions，流式
 curl -N http://127.0.0.1:8787/v1/chat/completions \
   -H 'content-type: application/json' \
-  -d '{"model":"openrouter-3o","stream":true,"messages":[{"role":"user","content":"hi"}]}'
+  -d '{"model":"doubao-seed-2.1-pro","stream":true,"messages":[{"role":"user","content":"hi"}]}'
 
 # OpenAI Responses，非流式（input 可以是字符串或 items 数组）
 curl http://127.0.0.1:8787/v1/responses \
   -H 'content-type: application/json' \
-  -d '{"model":"openrouter-3o","input":"What is a mutex?"}'
+  -d '{"model":"doubao-seed-2.1-pro","input":"What is a mutex?"}'
 
 # OpenAI Responses，流式
 curl -N http://127.0.0.1:8787/v1/responses \
   -H 'content-type: application/json' \
-  -d '{"model":"openrouter-3o","stream":true,"input":"hi"}'
+  -d '{"model":"doubao-seed-2.1-pro","stream":true,"input":"hi"}'
 
 # Anthropic Messages，非流式
 curl http://127.0.0.1:8787/v1/messages \
   -H 'content-type: application/json' \
-  -d '{"model":"openrouter-3o","max_tokens":256,"messages":[{"role":"user","content":"hi"}]}'
+  -d '{"model":"doubao-seed-2.1-pro","max_tokens":256,"messages":[{"role":"user","content":"hi"}]}'
 ```
 
 ---

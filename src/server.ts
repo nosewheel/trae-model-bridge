@@ -11,6 +11,7 @@
 // Every request is answered by spawning `traecli exec --json`. See src/traecli.ts.
 
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
+import { existsSync } from "node:fs";
 import { loadConfig, parseCliArgs } from "./config.ts";
 import { Logger, shortId, setActiveLogger } from "./logger.ts";
 import { listModels } from "./models.ts";
@@ -31,6 +32,17 @@ import {
   handleResponsesStream,
   parseResponsesRequest,
 } from "./responses.ts";
+
+// Load .env from the current working directory before reading config, so
+// BRIDGE_* vars can live in a file. Zero-dependency: Node's built-in loader.
+// Real env vars still win (loadEnvFile does not overwrite existing ones).
+if (existsSync(".env")) {
+  try {
+    process.loadEnvFile(".env");
+  } catch {
+    // ignore a malformed/unreadable .env; fall back to process env + defaults
+  }
+}
 
 const cfg = loadConfig(parseCliArgs(process.argv.slice(2)));
 const sem = new Semaphore(cfg.maxConcurrency);
