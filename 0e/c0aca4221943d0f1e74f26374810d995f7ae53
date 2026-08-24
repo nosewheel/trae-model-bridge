@@ -1,0 +1,22 @@
+.env.example
+  h_a6256446bcaeb9 1-54
+AGENTS.md
+  h_a6256446bcaeb9 67
+README.md
+  h_a6256446bcaeb9 16,92,136,178,183,188,193,198
+src/config.ts
+  h_a6256446bcaeb9 134
+src/server.ts
+  h_a6256446bcaeb9 14,36-46
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "0ec0aca4221943d0f1e74f26374810d995f7ae53",
+  "prompts": {},
+  "humans": {
+    "h_a6256446bcaeb9": {
+      "author": "chenzeping <chenzeping1016@gmail.com>"
+    }
+  }
+}
